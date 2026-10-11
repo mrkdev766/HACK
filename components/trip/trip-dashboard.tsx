@@ -131,7 +131,7 @@ export function TripDashboard() {
   const [brokenCovers, setBrokenCovers] = useState<Record<string, boolean>>({});
 
   return (
-    <div className="flex-1 flex flex-col bg-[#F8FAFC] text-slate-900 overflow-hidden">
+    <div className="flex-1 flex flex-col bg-[#F8FAFC] text-slate-900 overflow-y-auto min-h-full">
       {/* Pull-to-Refresh Container */}
       <PullToRefresh onRefresh={() => loadTrips(true)} className="pb-6">
         {/* Clean Header Bar */}

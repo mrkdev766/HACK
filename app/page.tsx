@@ -55,7 +55,7 @@ export default function WelcomePage() {
 
   return (
     <MobileShell theme="dark">
-      <div className="relative flex-1 flex flex-col justify-between select-none overflow-hidden bg-[#0F172A] text-white">
+      <div className="relative flex-1 flex flex-col justify-between select-none overflow-y-auto min-h-full bg-[#0F172A] text-white">
         {/* Background Image: Scenic Mountain Valley Sunset */}
         <div className="absolute inset-0 z-0">
           <Image
