@@ -309,13 +309,6 @@ export function PlanForm() {
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 mb-2.5">
-            <Sparkles className="w-3 h-3 text-emerald-600 animate-pulse" />
-            <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-emerald-800">
-              AI Expedition Agent
-            </span>
-          </div>
-
           <h2 className="text-xl font-bold font-sans text-slate-900 tracking-tight">
             Synthesizing Your Trail...
           </h2>
