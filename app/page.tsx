@@ -135,17 +135,17 @@ export default function WelcomePage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-13 bg-slate-900 hover:bg-slate-800 active:scale-[0.98] transition-all rounded-full text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-slate-900/25 cursor-pointer disabled:opacity-75"
+                className="w-full py-3.5 px-6 min-h-[52px] bg-slate-900 hover:bg-slate-800 active:scale-[0.98] transition-all rounded-full text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-lg shadow-slate-950/25 cursor-pointer disabled:opacity-75"
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin text-white" />
+                    <Loader2 className="w-5 h-5 animate-spin text-white" />
                     <span>Entering Adventure...</span>
                   </>
                 ) : (
                   <>
                     <span>Start Exploring</span>
-                    <ArrowRight className="w-4.5 h-4.5 stroke-[2.5]" />
+                    <ArrowRight className="w-5 h-5 stroke-[2.5]" />
                   </>
                 )}
               </button>
