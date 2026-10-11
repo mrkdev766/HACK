@@ -109,44 +109,47 @@ export function LocationMapPicker({
         mapInstanceRef.current.remove();
       }
 
-      // Create custom pin icon
+      // Create custom pin icon (Clean Black & White High-Contrast Pin)
       const customPin = L.divIcon({
         className: 'custom-wanderly-pin',
         html: `
           <div style="
             position: relative;
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
           ">
             <div style="
               position: absolute;
-              width: 34px;
-              height: 34px;
-              background: rgba(8, 127, 91, 0.35);
+              width: 36px;
+              height: 36px;
+              background: rgba(0, 0, 0, 0.25);
               border-radius: 50%;
-              animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+              animation: ping 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
             "></div>
             <div style="
-              width: 26px;
-              height: 26px;
-              background: #087F5B;
-              border: 3px solid #FFFFFF;
+              width: 28px;
+              height: 28px;
+              background: #090D16;
+              border: 2.5px solid #FFFFFF;
               border-radius: 50%;
-              box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+              box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
               display: flex;
               align-items: center;
               justify-content: center;
-              color: white;
-              font-size: 13px;
-              font-weight: bold;
-            ">📍</div>
+              color: #FFFFFF;
+            ">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                <circle cx="12" cy="10" r="3" fill="#FFFFFF"/>
+              </svg>
+            </div>
           </div>
         `,
-        iconSize: [34, 34],
-        iconAnchor: [17, 17],
+        iconSize: [36, 36],
+        iconAnchor: [18, 18],
       });
 
       // Default center: India (Kochi, Kerala: 9.9312, 76.2673)
