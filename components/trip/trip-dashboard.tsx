@@ -184,36 +184,32 @@ export function TripDashboard() {
           </div>
         </div>
 
-        {/* Cool Modern Hero Plan Card */}
+        {/* Cool Minimal Hero Banner Card */}
         <div className="px-5 pt-3">
-          <div className="bg-gradient-to-br from-[#0B132B] via-[#111C38] to-[#0A1022] text-white rounded-[28px] p-6 shadow-[0_16px_36px_-10px_rgba(11,19,43,0.35)] relative overflow-hidden border border-white/10 group">
-            {/* Ambient Lighting */}
-            <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-emerald-500/15 blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-8 -left-8 w-36 h-36 rounded-full bg-cyan-500/10 blur-2xl pointer-events-none" />
+          <div className="bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#090D16] text-white rounded-[26px] p-6 shadow-[0_16px_36px_-10px_rgba(15,23,42,0.35)] relative overflow-hidden border border-white/10 group">
+            {/* Minimal Ambient Glows */}
+            <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-emerald-500/15 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-8 -left-8 w-36 h-36 rounded-full bg-teal-500/10 blur-2xl pointer-events-none" />
 
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/25 backdrop-blur-md mb-3 shadow-2xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                <span className="text-[10px] font-bold tracking-wider uppercase text-emerald-300 font-sans">
-                  AI Expedition
-                </span>
+            <div className="relative z-10 space-y-3">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-sans font-extrabold tracking-tight text-white leading-tight">
+                  Where to next?
+                </h2>
+                <p className="text-xs font-sans text-slate-300/90 mt-1.5 leading-relaxed max-w-[300px]">
+                  Explore curated mystery stops tailored to your vibe and pace.
+                </p>
               </div>
 
-              <h2 className="text-[27px] sm:text-[29px] font-sans font-extrabold tracking-tight text-white leading-tight drop-shadow-sm">
-                Where to next?
-              </h2>
-
-              <p className="text-xs font-sans text-slate-300/90 mt-2 mb-4 leading-relaxed max-w-[270px]">
-                Explore curated mystery stops tailored to your vibe and pace.
-              </p>
-
-              <Link
-                href="/plan"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-xs tracking-wide shadow-[0_6px_20px_rgba(52,211,153,0.3)] hover:shadow-[0_8px_25px_rgba(52,211,153,0.4)] active:scale-95 transition-all"
-              >
-                <Plus className="w-3.5 h-3.5 stroke-[2.75]" />
-                <span>Plan Route</span>
-              </Link>
+              <div className="pt-1">
+                <Link
+                  href="/plan"
+                  className="w-full h-11 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2 shadow-[0_6px_20px_rgba(52,211,153,0.3)] hover:shadow-[0_8px_25px_rgba(52,211,153,0.4)] active:scale-98 transition-all cursor-pointer"
+                >
+                  <Plus className="w-4 h-4 stroke-[2.5]" />
+                  <span>Plan Route</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
