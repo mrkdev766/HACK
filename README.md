@@ -21,9 +21,86 @@
 
 ## 📖 Overview
 
-**Wanderly** is a state-of-the-art, AI-powered real-world travel adventure web application that revolutionizes urban and wilderness exploration. Instead of static travel guides, Wanderly turns trips into progressive **mystery quests**. 
+**Wanderly** is a state-of-the-art, AI-powered real-world travel adventure web application that turns urban and wilderness exploration into progressive **mystery quests**. 
 
 Enter your starting location, budget, duration, preferred transit mode (**Walking**, **Public Transit**, or **Personal Vehicle**), and travel vibe. Google Gemini AI constructs a multi-stop real-world quest where future destinations remain mystery surprise nodes until current missions are completed, documented, and verified!
+
+---
+
+## 🔌 APIs & External Services Integration
+
+Wanderly leverages a multi-tiered ecosystem of open-data APIs, geospatial engines, and LLMs to research regional corridors, synthesize accurate budget models, and present interactive maps:
+
+| API / Data Source | Purpose & Endpoint | Key Usage in Wanderly |
+| :--- | :--- | :--- |
+| **Google Gemini AI API** | `models/gemini-2.5-flash:generateContent` | Dynamic mystery itinerary generation, gamified checkpoint missions, and mode-tailored transit prompt engineering. |
+| **OpenStreetMap Nominatim API** | `nominatim.openstreetmap.org/search` & `/reverse` | Zero-cost geocoding, reverse geocoding, coordinate resolution, and regional bounding box detection without API keys. |
+| **Wikipedia / Wikivoyage REST API** | `en.wikipedia.org/api/rest_v1/page/summary` | Real-time regional travel excerpts, cultural lore, and heritage context used to ground LLM prompts with authentic facts. |
+| **Google Maps & OSM Tile Services** | `mt1.google.com/vt/lyrs=...` & `tile.openstreetmap.org` | High-contrast interactive map canvas rendering (Terrain, Roads, Satellite) via Leaflet map engine. |
+| **DiceBear Avatars API** | `api.dicebear.com/7.x/bottts/svg` | Dynamic SVG explorer avatar generation for community profiles and guest travelers. |
+| **Unsplash Image Curator** | `images.unsplash.com` | High-resolution location photography curated for destination cards and mystery waypoints. |
+
+---
+
+## 🔄 Self-Improving Itinerary Engine & Community Feedback Loop
+
+While AI models excel at creative route generation, LLM assumptions about local bus fares, roadside eateries, or exact ticket prices can occasionally be inaccurate. **Wanderly solves this via a hybrid AI + Community Correction loop:**
+
+```
+┌──────────────────────────┐
+│  1. AI Agent Synthesis   │  (Generates initial mystery route & estimated budget)
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│  2. Field Exploration    │  (Traveler completes missions & logs real-world spend)
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 3. Traveler Correction   │  (Traveler updates actual spend, bus/metro tips & shop notes)
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 4. Public Quest Publish  │  (Corrected quest is published to Community Discovery Feed)
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 5. Cumulative Improvement│  (Future travelers clone battle-tested, crowd-verified routes!)
+└──────────────────────────┘
+```
+
+### How Community Contributions Improve Mystery Quests Over Time:
+1. **Initial AI Blueprint**: Google Gemini constructs the initial route with estimated costs (e.g. ₹2,500 budget allocation).
+2. **Real Field Data Capture**: When a traveler visits a waypoint, they record **actual expenditure**, specify **exact transport choices** (e.g., *Take SWTD Ferry #4 for ₹18 instead of private boat*), and append local shop tips.
+3. **Publishing & Community Discovery**: The traveler publishes their corrected itinerary with custom title tags and vibe badges.
+4. **Crowdsourced Evolution**: As other community members clone and experience the published quest, Wanderly's regional knowledge base is continuously enriched with verified, crowd-tested mystery routes!
+
+---
+
+## 🔬 Technical Architecture & Deep-Dive (Question Raising Parts)
+
+### 1. Server-Authoritative Mystery Lock & Redaction
+* **Question**: *How does Wanderly prevent tech-savvy users from inspecting network payloads in DevTools to reveal locked mystery destinations ahead of time?*
+* **Solution**: locked destination names, coordinates, images, and mission details are redacted on the server side (`TripService.redactDestination`). The client API payload only receives placeholder metadata for locked nodes. Unlocking occurs strictly on the server upon valid mission completion.
+
+### 2. Atomic Mission Completion & Double-Claim Prevention
+* **Question**: *How are points, coin rewards, and destination state transitions kept cheat-proof against race conditions?*
+* **Solution**: Mission completions execute within a single PostgreSQL stored procedure (`public.complete_destination_mission`). This database transaction atomically:
+  - Verifies trip ownership and current unlock state.
+  - Inserts a record into `mission_completions` (enforced by a `UNIQUE(user_id, mission_id)` constraint to prevent double-claiming).
+  - Updates the completed destination status to `completed`.
+  - Unlocks the next sequential destination (`sequence_number + 1`) to `unlocked`.
+  - Records journal notes and photos inside the same transaction boundary.
+
+### 3. Mode-Tailored Transit Strategy Engine
+* **Question**: *How does the planner adapt when switching between Walking, Public Transit, and Personal Driving?*
+* **Solution**: The `TripPlannerService` adjusts geospatial spacing, travel time calculations, and LLM prompt rules based on the selected mode:
+  - **Walking Mode**: Restricts waypoint spacing to dense **1–4 km** radii, prioritizes pedestrian paths, and calculates foot travel minutes.
+  - **Public Transit Mode**: Incorporates specific bus line numbers, metro colors, water ferry routes, and share-auto fare models.
+  - **Personal Vehicle Mode**: Spans scenic highway corridors (**10–40 km**), calculates fuel/toll allocations, and highlights roadside parking viewpoints.
 
 ---
 
@@ -57,11 +134,6 @@ Enter your starting location, budget, duration, preferred transit mode (**Walkin
 - **Friend Requests**: Send, receive, and manage friend requests.
 - **Live Co-Travel Quests**: Join active ongoing quests created by friends or community leaders in real time.
 
-### 🏆 6. Gamification & Memories Journal
-- **Field Missions**: Photo uploads, note prompts, and explore challenges for every stop.
-- **Rewards System**: Earn Gold Coins, Silver Badges, XP points, and level up your wanderer profile.
-- **Interactive Lightbox Journal**: Timeline photo gallery, journal entries, and shareable expedition summary cards.
-
 ---
 
 ## 🛠️ Technology Stack
@@ -94,15 +166,6 @@ erDiagram
     JOURNAL_ENTRIES ||--o{ JOURNAL_PHOTOS : includes
 ```
 
-### Main Database Tables:
-- `profiles`: User details, avatars, bio, badges, coins, and achievement stats.
-- `trips`: Private and public itineraries with budget, travel style, vibe, transport mode, and clone counts.
-- `destinations`: Sequential stops with mystery unlock status (`locked`, `unlocked`, `completed`), actual spend, and custom notes.
-- `missions`: Checkpoint objectives, photo counts, instruction prompts, and point rewards.
-- `journal_entries`: Personal field logs, actual spend records, and timestamped memories.
-- `friendships`: Social connection states (`pending`, `accepted`, `rejected`).
-- `trip_companions`: Co-travelers joining live ongoing quests.
-
 ---
 
 ## 🚀 Quick Start Guide
@@ -131,7 +194,6 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 ```
-*(Note: Travelholic features a built-in demo storage engine that works instantly out-of-the-box even without API keys!)*
 
 ### 3. Run Development Server
 ```bash
@@ -143,13 +205,7 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser!
 
 ## 🌐 Production Deployment
 
-For complete, step-by-step instructions on deploying Travelholic to **Vercel** and configuring **Supabase PostgreSQL**, read the **[Deployment Guide](DEPLOYMENT_GUIDE.md)**.
-
-### Summary Deployment Steps:
-1. Run [`supabase/schema.sql`](supabase/schema.sql) in your Supabase SQL Editor.
-2. Create a public storage bucket named `journal-photos`.
-3. Connect your GitHub repository (`mrkdev766/HACK`) to Vercel.
-4. Set environment variables in Vercel settings and deploy!
+For complete, step-by-step instructions on deploying Wanderly to **Vercel** and configuring **Supabase PostgreSQL**, read the **[Deployment Guide](DEPLOYMENT_GUIDE.md)**.
 
 ---
 
@@ -161,6 +217,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 <div align="center">
 
-Made with ❤️ by Travelholic Team • *"Small steps. Big stories."*
+Made with ❤️ by Wanderly Team • *"Small steps. Big stories."*
 
 </div>
