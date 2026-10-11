@@ -349,32 +349,32 @@ export function ProfileView({
         {activeTab === 'passport' && (
           <div className="space-y-4 animate-fade-in">
             {/* Minimal Field Passport Card */}
-            <div className="bg-white rounded-[22px] p-4.5 border border-slate-200/90 shadow-xs space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase">
+            <div className="bg-white rounded-[22px] p-4.5 border border-slate-200/90 shadow-xs space-y-3 overflow-hidden">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase shrink-0">
                   Traveler Manifest
                 </span>
-                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 shrink-0">
                   Verified Nomad
                 </span>
               </div>
 
               <div className="space-y-1.5 text-xs text-slate-600">
-                <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span className="text-slate-400">Curiosity Quotient</span>
-                  <span className="font-bold text-slate-800">99.4% Cosmic</span>
+                <div className="flex items-center justify-between gap-2 py-1 border-b border-slate-100">
+                  <span className="text-slate-400 shrink-0">Curiosity Quotient</span>
+                  <span className="font-bold text-slate-800 text-right truncate">99.4% Cosmic</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span className="text-slate-400">Backpack Weight</span>
-                  <span className="font-bold text-slate-800">0.0 kg (Lightfoot)</span>
+                <div className="flex items-center justify-between gap-2 py-1 border-b border-slate-100">
+                  <span className="text-slate-400 shrink-0">Backpack Weight</span>
+                  <span className="font-bold text-slate-800 text-right truncate">0.0 kg (Lightfoot)</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span className="text-slate-400">Preferred Terrain</span>
-                  <span className="font-bold text-slate-800">Unscripted Byways</span>
+                <div className="flex items-center justify-between gap-2 py-1 border-b border-slate-100">
+                  <span className="text-slate-400 shrink-0">Preferred Terrain</span>
+                  <span className="font-bold text-slate-800 text-right truncate">Unscripted Byways</span>
                 </div>
-                <div className="flex justify-between py-1">
-                  <span className="text-slate-400">Mutual Network</span>
-                  <span className="font-bold text-emerald-600">{friendsList.length} Connected Explorers</span>
+                <div className="flex items-center justify-between gap-2 py-1">
+                  <span className="text-slate-400 shrink-0">Mutual Network</span>
+                  <span className="font-bold text-emerald-600 text-right truncate">{friendsList.length} Connected Explorers</span>
                 </div>
               </div>
             </div>
