@@ -278,11 +278,11 @@ export function DiscoveryFeed() {
               : 'Search profiles, view traveled quests, add friends & join live trails.'}
           </p>
 
-          {/* Clean Mode Switcher: Quests vs Explorers (Match Parent Container Snugly) */}
-          <div className="grid grid-cols-2 p-[3px] rounded-full bg-slate-200/80 border border-slate-300/60 mt-3.5 w-full max-w-[270px] shadow-inner">
+          {/* Clean Mode Switcher: Quests vs Explorers (Match Parent Container Flush) */}
+          <div className="grid grid-cols-2 rounded-full bg-slate-200/80 border border-slate-300/60 mt-3.5 w-full max-w-[270px] shadow-inner overflow-hidden">
             <button
               onClick={() => setMode('quests')}
-              className={`w-full py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              className={`w-full py-2.5 text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                 mode === 'quests'
                   ? 'bg-slate-900 text-white shadow-sm'
                   : 'text-slate-600 hover:text-slate-900'
@@ -294,7 +294,7 @@ export function DiscoveryFeed() {
 
             <button
               onClick={() => setMode('explorers')}
-              className={`w-full py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              className={`w-full py-2.5 text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                 mode === 'explorers'
                   ? 'bg-slate-900 text-white shadow-sm'
                   : 'text-slate-600 hover:text-slate-900'

@@ -129,10 +129,10 @@ export default function GlobalJournalPage() {
 
             {/* Filter Toggle Pills */}
             <div className="flex justify-between items-center gap-2 mt-4">
-              <div className="grid grid-cols-2 p-[3px] rounded-full bg-slate-200/80 border border-slate-300/60 flex-1 max-w-[240px] shadow-inner items-center">
+              <div className="grid grid-cols-2 rounded-full bg-slate-200/80 border border-slate-300/60 flex-1 max-w-[240px] shadow-inner items-center overflow-hidden">
                 <button
                   onClick={() => setFilter('completed')}
-                  className={`w-full py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center ${
+                  className={`w-full py-2.5 text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center ${
                     filter === 'completed'
                       ? 'bg-slate-900 text-white shadow-sm'
                       : 'text-slate-600 hover:text-slate-900'
@@ -142,7 +142,7 @@ export default function GlobalJournalPage() {
                 </button>
                 <button
                   onClick={() => setFilter('all')}
-                  className={`w-full py-2 rounded-full text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center ${
+                  className={`w-full py-2.5 text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center ${
                     filter === 'all'
                       ? 'bg-slate-900 text-white shadow-sm'
                       : 'text-slate-600 hover:text-slate-900'
