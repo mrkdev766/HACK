@@ -1,0 +1,102 @@
+@import "leaflet/dist/leaflet.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-forest: #0F172A;
+  --color-forest-dark: #020617;
+  --color-cream: #F8FAFC;
+  --color-cream-card: #FFFFFF;
+  --color-sage: #E2E8F0;
+  --color-action: #10B981;
+  --color-action-hover: #059669;
+  --color-gold: #F59E0B;
+  --color-ink: #0F172A;
+  --color-muted: #64748B;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #090D16;
+    color: var(--color-ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Custom scrollbar for gallery and lists */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(20, 61, 48, 0.2);
+  border-radius: 9999px;
+}
+
+/* Animations */
+@keyframes pulseSubtle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes dashRoute {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 2.5s ease-in-out infinite;
+}
+
+.animate-float-gentle {
+  animation: floatGentle 3s ease-in-out infinite;
+}
+
+.animate-route-dash {
+  stroke-dasharray: 8 6;
+  animation: dashRoute 4s linear infinite;
+}
+
+/* Glassmorphism utility */
+.glass-panel-dark {
+  background: rgba(20, 61, 48, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(213, 229, 216, 0.15);
+}
+
+.glass-panel-light {
+  background: rgba(247, 244, 234, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(20, 61, 48, 0.08);
+}
