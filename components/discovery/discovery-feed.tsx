@@ -277,14 +277,14 @@ export function DiscoveryFeed() {
               : 'Search profiles, view traveled quests, add friends & join live trails.'}
           </p>
 
-          {/* Clean Mode Switcher: Quests vs Explorers */}
-          <div className="flex items-center gap-2 mt-3.5 p-1 rounded-full bg-slate-200/70 max-w-[260px]">
+          {/* Clean Mode Switcher: Quests vs Explorers (Perfect parent container alignment) */}
+          <div className="inline-flex items-center p-1 rounded-full bg-slate-200/80 border border-slate-300/50 mt-3.5 w-full max-w-[270px] shadow-inner">
             <button
               onClick={() => setMode('quests')}
-              className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              className={`flex-1 h-8 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                 mode === 'quests'
                   ? 'bg-slate-900 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-300/40'
               }`}
             >
               <Compass className="w-3.5 h-3.5" />
@@ -293,10 +293,10 @@ export function DiscoveryFeed() {
 
             <button
               onClick={() => setMode('explorers')}
-              className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              className={`flex-1 h-8 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                 mode === 'explorers'
                   ? 'bg-slate-900 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-300/40'
               }`}
             >
               <Users className="w-3.5 h-3.5" />
