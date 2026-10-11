@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/features/auth/auth-context';
 import { PullToRefresh } from '@/components/layout/pull-to-refresh';
+import { BottomNav } from '@/components/layout/bottom-nav';
 import { ExplorerProfile } from '@/types/database';
 import { ExplorerProfileModal } from './explorer-profile-modal';
 
@@ -736,6 +737,9 @@ export function DiscoveryFeed() {
           )}
         </div>
       </PullToRefresh>
+
+      {/* Floating Bottom Navigation */}
+      <BottomNav />
 
       {/* Explorer Profile Sheet / Modal */}
       <ExplorerProfileModal

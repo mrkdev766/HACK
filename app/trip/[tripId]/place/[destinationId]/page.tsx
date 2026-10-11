@@ -26,6 +26,7 @@ import {
   Info,
 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/mobile-shell';
+import { BottomNav } from '@/components/layout/bottom-nav';
 import { ClientDestinationView } from '@/types/trip';
 import { useAuth } from '@/features/auth/auth-context';
 import { getDestinationPlaces, DestinationSpot } from '@/lib/places/destination-attractions';
@@ -594,6 +595,9 @@ export default function DestinationDetailPage() {
           </button>
         </div>
       </div>
+
+      {/* Bottom Navigation Bar */}
+      <BottomNav tripId={tripId} />
     </MobileShell>
   );
 }
