@@ -99,9 +99,9 @@ export function ProfileView({
   const userSeed = user?.username || 'wanderer';
   const quirkTitle =
     WEIRD_TITLES[
-      Math.abs(
-        userSeed.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
-      ) % WEIRD_TITLES.length
+    Math.abs(
+      userSeed.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    ) % WEIRD_TITLES.length
     ];
 
   useEffect(() => {
@@ -311,32 +311,29 @@ export function ProfileView({
         <div className="flex bg-slate-200/80 p-1 rounded-xl text-xs font-bold text-slate-500">
           <button
             onClick={() => setActiveTab('passport')}
-            className={`flex-1 py-1.5 rounded-lg transition-all ${
-              activeTab === 'passport'
+            className={`flex-1 py-1.5 rounded-lg transition-all ${activeTab === 'passport'
                 ? 'bg-white text-slate-900 shadow-xs font-bold'
                 : 'hover:text-slate-900'
-            }`}
+              }`}
           >
             Passport
           </button>
           <button
             onClick={() => setActiveTab('directory')}
-            className={`flex-1 py-1.5 rounded-lg transition-all flex items-center justify-center gap-1 ${
-              activeTab === 'directory'
+            className={`flex-1 py-1.5 rounded-lg transition-all flex items-center justify-center gap-1 ${activeTab === 'directory'
                 ? 'bg-white text-slate-900 shadow-xs font-bold'
                 : 'hover:text-slate-900'
-            }`}
+              }`}
           >
             <span>Explorers</span>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
           </button>
           <button
             onClick={() => setActiveTab('trips')}
-            className={`flex-1 py-1.5 rounded-lg transition-all ${
-              activeTab === 'trips'
+            className={`flex-1 py-1.5 rounded-lg transition-all ${activeTab === 'trips'
                 ? 'bg-white text-slate-900 shadow-xs font-bold'
                 : 'hover:text-slate-900'
-            }`}
+              }`}
           >
             Trips ({trips.length})
           </button>
@@ -349,38 +346,38 @@ export function ProfileView({
         {activeTab === 'passport' && (
           <div className="space-y-4 animate-fade-in">
             {/* Minimal Field Passport Card */}
-            <div className="bg-white rounded-[22px] p-5 border border-slate-200/90 shadow-xs space-y-3">
+            <div className="bg-white rounded-[22px] p-4.5 border border-slate-200/90 shadow-xs space-y-3 overflow-hidden">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase shrink-0">
                   Traveler Manifest
                 </span>
-                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100 shrink-0">
+                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 shrink-0">
                   Verified Nomad
                 </span>
               </div>
 
-              <div className="space-y-1 text-[11px] text-slate-600">
-                <div className="flex items-center justify-between gap-2 py-1.5 border-b border-slate-100">
+              <div className="space-y-1.5 text-xs text-slate-600">
+                <div className="flex items-center justify-between gap-2 py-1 border-b border-slate-100">
                   <span className="text-slate-400 shrink-0">Curiosity Quotient</span>
-                  <span className="font-bold text-slate-800 text-right">99.4% Cosmic</span>
+                  <span className="font-bold text-slate-800 text-right truncate">99.4% Cosmic</span>
                 </div>
-                <div className="flex items-center justify-between gap-2 py-1.5 border-b border-slate-100">
+                <div className="flex items-center justify-between gap-2 py-1 border-b border-slate-100">
                   <span className="text-slate-400 shrink-0">Backpack Weight</span>
-                  <span className="font-bold text-slate-800 text-right">0.0 kg (Lightfoot)</span>
+                  <span className="font-bold text-slate-800 text-right truncate">0.0 kg (Lightfoot)</span>
                 </div>
-                <div className="flex items-center justify-between gap-2 py-1.5 border-b border-slate-100">
+                <div className="flex items-center justify-between gap-2 py-1 border-b border-slate-100">
                   <span className="text-slate-400 shrink-0">Preferred Terrain</span>
-                  <span className="font-bold text-slate-800 text-right">Unscripted Byways</span>
+                  <span className="font-bold text-slate-800 text-right truncate">Unscripted Byways</span>
                 </div>
-                <div className="flex items-center justify-between gap-2 py-1.5">
+                <div className="flex items-center justify-between gap-2 py-1">
                   <span className="text-slate-400 shrink-0">Mutual Network</span>
-                  <span className="font-bold text-emerald-600 text-right">{friendsList.length} Connected Explorers</span>
+                  <span className="font-bold text-emerald-600 text-right truncate">{friendsList.length} Connected Explorers</span>
                 </div>
               </div>
             </div>
 
             {/* Quirky Stamp Grid */}
-            <div className="bg-white rounded-[22px] p-5 border border-slate-200/90 shadow-xs space-y-3">
+            <div className="bg-white rounded-[22px] p-4.5 border border-slate-200/90 shadow-xs space-y-3">
               <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase block">
                 Official Waypoint Stamps
               </span>
@@ -483,11 +480,10 @@ export function ProfileView({
                       {/* Add Friend Toggle Button */}
                       <button
                         onClick={() => toggleFriend(explorer.id)}
-                        className={`px-3 py-1.5 rounded-full text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1 ${
-                          isFriend
+                        className={`px-3 py-1.5 rounded-full text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1 ${isFriend
                             ? 'bg-emerald-500 text-slate-950 shadow-xs hover:bg-emerald-400'
                             : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                        }`}
+                          }`}
                       >
                         {isFriend ? (
                           <>

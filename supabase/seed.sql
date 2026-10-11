@@ -207,3 +207,115 @@ values
   'Beach shoreline at dusk'
 )
 on conflict (id) do nothing;
+
+-- Additional Public Community Explorers & Discovery Quests
+insert into public.profiles (id, username, display_name, avatar_url, bio, badge, coins)
+values 
+(
+  '77777777-7777-7777-7777-777777777771',
+  'arjun_v',
+  'Arjun Verma',
+  'https://api.dicebear.com/7.x/bottts/svg?seed=arjun_v',
+  'Backpacker traversing Western Ghats & Himachal valleys.',
+  '🥇 Gold Explorer',
+  420
+),
+(
+  '77777777-7777-7777-7777-777777777772',
+  'ananya_travels',
+  'Ananya Roy',
+  'https://api.dicebear.com/7.x/bottts/svg?seed=ananya_travels',
+  'Culture nomad documenting street food & heritage architecture.',
+  '🏆 Trail Master',
+  680
+)
+on conflict (id) do nothing;
+
+-- Public Quest 1: Manali Snow Pass
+insert into public.trips (
+  id,
+  user_id,
+  starting_location_name,
+  starting_location_latitude,
+  starting_location_longitude,
+  budget_amount,
+  currency,
+  duration_value,
+  duration_unit,
+  transport_mode,
+  travel_style,
+  estimated_total_cost,
+  total_points,
+  status,
+  is_public,
+  public_title,
+  public_description,
+  vibe,
+  clones_count
+)
+values (
+  '88888888-8888-8888-8888-888888888881',
+  '77777777-7777-7777-7777-777777777771',
+  'Manali, Himachal Pradesh',
+  32.2432,
+  77.1892,
+  4500.00,
+  'INR',
+  2,
+  'days',
+  'public_transit',
+  'nature',
+  4200.00,
+  350,
+  'completed',
+  true,
+  'Manali Snow Pass & Parvati Valley Secret Trails',
+  'Trek through pine forests, old apple orchards, and secluded hot springs in Solang & Kasol.',
+  '🏔️ Mountain Pass',
+  24
+) on conflict (id) do nothing;
+
+-- Public Quest 2: Jaipur Heritage
+insert into public.trips (
+  id,
+  user_id,
+  starting_location_name,
+  starting_location_latitude,
+  starting_location_longitude,
+  budget_amount,
+  currency,
+  duration_value,
+  duration_unit,
+  transport_mode,
+  travel_style,
+  estimated_total_cost,
+  total_points,
+  status,
+  is_public,
+  public_title,
+  public_description,
+  vibe,
+  clones_count
+)
+values (
+  '88888888-8888-8888-8888-888888888882',
+  '77777777-7777-7777-7777-777777777772',
+  'Jaipur, Rajasthan',
+  26.9124,
+  75.7873,
+  3200.00,
+  'INR',
+  1,
+  'days',
+  'walking',
+  'culture',
+  2900.00,
+  280,
+  'completed',
+  true,
+  'Jaipur Amber Fort & Old Pink City Food Spree',
+  'Explore stepwells, secret rooftop sunset spots facing Nahargarh, and authentic pyaz kachori lanes.',
+  '🕌 Heritage',
+  18
+) on conflict (id) do nothing;
+
