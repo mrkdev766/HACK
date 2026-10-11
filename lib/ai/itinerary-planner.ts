@@ -132,9 +132,8 @@ Respond ONLY with valid JSON conforming to this schema without markdown formatti
     if (geminiApiKey) {
       const candidateModels = [
         'gemini-2.5-flash',
-        'gemini-flash-latest',
-        'gemini-2.5-pro',
         'gemini-1.5-flash',
+        'gemini-flash-latest',
       ];
       for (const model of candidateModels) {
         try {
@@ -144,7 +143,7 @@ Respond ONLY with valid JSON conforming to this schema without markdown formatti
             headers: {
               'Content-Type': 'application/json',
             },
-            signal: AbortSignal.timeout(35000),
+            signal: AbortSignal.timeout(6000),
             body: JSON.stringify({
               contents: [
                 {
@@ -183,7 +182,11 @@ Respond ONLY with valid JSON conforming to this schema without markdown formatti
           } else {
             const errBody = await geminiResponse.text().catch(() => '');
             lastError = `Gemini (${model}) status ${geminiResponse.status}: ${errBody.slice(0, 150)}`;
-            console.error(lastError);
+            console.warn(lastError);
+            if (geminiResponse.status === 400 || geminiResponse.status === 403 || geminiResponse.status === 429) {
+              // Fail fast on invalid key or quota error to allow grounded fallback
+              break;
+            }
           }
         } catch (geminiErr: unknown) {
           const msg = geminiErr instanceof Error ? geminiErr.message : String(geminiErr);
