@@ -102,10 +102,6 @@ export default function WelcomePage() {
           <p className="text-[11px] sm:text-xs font-extrabold text-white/90 tracking-[0.28em] uppercase mt-2 drop-shadow-sm">
             EXPLORE &nbsp;•&nbsp; PLAN &nbsp;•&nbsp; EXPERIENCE
           </p>
-
-          <p className="text-xs font-semibold text-emerald-300 tracking-wider uppercase mt-3 bg-slate-950/40 px-3 py-1 rounded-full backdrop-blur-md border border-white/10">
-            AI Surprise Adventures
-          </p>
         </div>
 
         {/* Bottom Area: Stylized Slogan & Interactive Form Card */}
