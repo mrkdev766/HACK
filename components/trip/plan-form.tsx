@@ -137,8 +137,10 @@ export function PlanForm() {
     );
   };
 
-  const handleNextStep = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleNextStep = (e?: React.FormEvent | React.MouseEvent) => {
+    if (e && typeof e.preventDefault === 'function') {
+      e.preventDefault();
+    }
     setError(null);
 
     if (step === 1) {
@@ -148,12 +150,14 @@ export function PlanForm() {
       }
       setStep(2);
     } else if (step === 2) {
-      if (!budgetAmount || budgetAmount < 500) {
-        setError('Please enter a budget of at least ₹500.');
+      const bAmt = Number(budgetAmount);
+      const dVal = Number(durationValue);
+      if (budgetAmount === '' || isNaN(bAmt) || bAmt < 100) {
+        setError('Please enter a valid budget of at least ₹100.');
         return;
       }
-      if (!durationValue || durationValue < 1) {
-        setError('Please enter a duration of at least 1.');
+      if (durationValue === '' || isNaN(dVal) || dVal < 1) {
+        setError('Please enter a valid duration of at least 1.');
         return;
       }
       setStep(3);
@@ -180,7 +184,7 @@ export function PlanForm() {
       }
       if (!currentUserId) {
         const guestRes = await loginGuest(`wanderer_${Math.floor(1000 + Math.random() * 9000)}`);
-        if (guestRes.success && guestRes.profile) {
+        if (guestRes?.success && guestRes?.profile) {
           currentUserId = guestRes.profile.id;
         }
       }
@@ -228,7 +232,15 @@ export function PlanForm() {
 
       router.push(`/trip/${data.trip_id}`);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Error generating itinerary';
+      console.error('Error during itinerary synthesis:', err);
+      let msg = 'Error generating itinerary. Please try again.';
+      if (err instanceof Error) {
+        msg = err.message;
+      } else if (typeof err === 'string') {
+        msg = err;
+      } else if (err && typeof err === 'object' && 'message' in err && typeof (err as any).message === 'string') {
+        msg = (err as any).message;
+      }
       setError(msg);
       setIsLoading(false);
     }
