@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Mountain, ArrowRight, User, Loader2 } from 'lucide-react';
+import { ArrowRight, User, Loader2 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/mobile-shell';
 import { useAuth } from '@/features/auth/auth-context';
 
@@ -11,12 +11,15 @@ export default function WelcomePage() {
   const router = useRouter();
   const { loginGuest, user, activeTripId } = useAuth();
 
-  const [step, setStep] = useState<'intro' | 'username'>('intro');
   const [usernameInput, setUsernameInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleGetStarted = () => {
+  const handleStartExploring = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    // If already logged in, redirect directly
     if (user && activeTripId) {
       router.push(`/trip/${activeTripId}`);
       return;
@@ -25,16 +28,11 @@ export default function WelcomePage() {
       router.push('/dashboard');
       return;
     }
-    setStep('username');
-  };
 
-  const handleUsernameSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
+    const trimmed = usernameInput.trim() || `wanderer_${Math.floor(1000 + Math.random() * 9000)}`;
 
-    const trimmed = usernameInput.trim();
-    if (!trimmed || trimmed.length < 2) {
-      setError('Please enter a username of at least 2 characters');
+    if (trimmed.length < 2) {
+      setError('Please enter a name of at least 2 characters');
       return;
     }
 
@@ -55,138 +53,98 @@ export default function WelcomePage() {
     }
   };
 
-  // SCREEN 1: Welcome Intro
-  if (step === 'intro') {
-    return (
-      <MobileShell theme="forest">
-        <div className="relative flex-1 flex flex-col justify-between p-6 select-none overflow-hidden">
-          {/* Cinematic Background Travel Image */}
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80"
-              alt="Mountain adventure"
-              fill
-              priority
-              className="object-cover scale-105"
-            />
-            {/* Rich gradient overlay for contrast */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#091a13]/85 via-black/40 to-[#091a13]/90" />
-          </div>
-
-          {/* Top Brand Logo */}
-          <div className="relative z-10 flex flex-col items-center pt-8 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white mb-3 shadow-lg">
-              <Mountain className="w-8 h-8 stroke-[2.2]" />
-            </div>
-            <h1 className="text-3xl font-black text-white tracking-tight font-display">
-              Wanderly
-            </h1>
-            <p className="text-xs text-white/80 font-medium tracking-wide mt-1">
-              Curated mystery travel itineraries
-            </p>
-          </div>
-
-          {/* Bottom Call to Action */}
-          <div className="relative z-10 flex flex-col gap-4 pb-4">
-            <button
-              onClick={handleGetStarted}
-              className="w-full h-14 bg-white hover:bg-slate-100 text-[#091a13] font-black text-base rounded-pill flex items-center justify-center gap-2 shadow-2xl active:scale-98 transition-all cursor-pointer"
-            >
-              <span>Get Started</span>
-              <ArrowRight className="w-5 h-5 stroke-[2.5]" />
-            </button>
-
-            <p className="text-[11px] text-center text-white/60">
-              Instant guest session • No passwords required
-            </p>
-          </div>
-        </div>
-      </MobileShell>
-    );
-  }
-
-  // SCREEN 2: Welcome Back & Username Step (Original Clean UI)
   return (
-    <MobileShell theme="cream">
-      <div className="flex-1 flex flex-col justify-between bg-[#F7F4EA] text-ink p-6 select-none overflow-y-auto">
-        {/* Top Header */}
-        <div className="pt-6">
-          <button
-            onClick={() => setStep('intro')}
-            className="text-xs font-bold text-muted hover:text-ink mb-6 flex items-center gap-1 cursor-pointer"
-          >
-            ← Back
-          </button>
-
-          <h2 className="text-2xl font-black text-ink font-display tracking-tight">
-            Welcome Back!
-          </h2>
-          <p className="text-xs text-muted mt-1 leading-relaxed">
-            Your next adventure is just one step away.
-          </p>
-
-          {error && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-2xl text-xs text-red-600 font-bold">
-              {error}
-            </div>
-          )}
-
-          {/* Form */}
-          <form onSubmit={handleUsernameSubmit} className="mt-6 flex flex-col gap-4">
-            <div className="bg-white rounded-[20px] p-3.5 px-4 shadow-card border border-black/5 flex items-center gap-3">
-              <User className="w-5 h-5 text-muted" />
-              <input
-                type="text"
-                value={usernameInput}
-                onChange={(e) => setUsernameInput(e.target.value)}
-                placeholder="Enter your username"
-                maxLength={24}
-                required
-                className="w-full bg-transparent text-sm font-bold text-ink focus:outline-none placeholder:text-muted/60"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full h-14 bg-forest hover:bg-forest-light active:scale-98 transition-all rounded-pill text-white font-bold text-base flex items-center justify-center gap-2 shadow-lg mt-2 cursor-pointer disabled:opacity-75"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Entering Adventure...</span>
-                </>
-              ) : (
-                <>
-                  <span>Continue</span>
-                  <ArrowRight className="w-5 h-5 stroke-[2.5]" />
-                </>
-              )}
-            </button>
-          </form>
+    <MobileShell theme="dark">
+      <div className="relative flex-1 flex flex-col justify-between select-none overflow-hidden bg-[#0F172A] text-white">
+        {/* Background Image: Scenic Mountain Valley Sunset */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80"
+            alt="Wanderly Mountain Sunset"
+            fill
+            priority
+            className="object-cover object-center scale-105"
+          />
+          {/* Subtle gradient scrim for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/30 to-slate-950/90" />
         </div>
 
-        {/* Cute hand-written quote and pine forest illustration at bottom */}
-        <div className="flex flex-col items-center pt-8 pb-4 text-center">
-          <p className="text-xs font-semibold text-action italic tracking-wide font-display -rotate-3 mb-4">
-            Same you, new places...
+        {/* Top Header Branding Section */}
+        <div className="relative z-10 flex flex-col items-center text-center pt-10 px-6">
+          {/* Mountain & Path Logo */}
+          <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white mb-3 shadow-xl">
+            <svg
+              className="w-10 h-10 text-white"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 2L2 22h20L12 2z" />
+              <path d="M12 2l4 8 4 12" />
+              <circle cx="18" cy="6" r="1.5" fill="currentColor" />
+            </svg>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans drop-shadow-md">
+            Wanderly
+          </h1>
+          
+          <p className="text-xs font-bold text-emerald-300 tracking-wider uppercase mt-1">
+            AI Surprise Adventures
           </p>
 
-          {/* Forest Graphic Simulation */}
-          <div className="w-full h-28 relative opacity-40">
-            <svg
-              className="w-full h-full text-forest"
-              viewBox="0 0 300 100"
-              fill="currentColor"
-              preserveAspectRatio="none"
-            >
-              <polygon points="20,100 40,30 60,100" />
-              <polygon points="50,100 75,20 100,100" />
-              <polygon points="90,100 115,35 140,100" />
-              <polygon points="130,100 160,15 190,100" />
-              <polygon points="180,100 205,30 230,100" />
-              <polygon points="220,100 250,25 280,100" />
-            </svg>
+          <p className="text-sm font-medium text-slate-200/90 mt-4 leading-relaxed max-w-[260px] drop-shadow-xs">
+            Real places. Simple plans. Big memories.
+          </p>
+        </div>
+
+        {/* Bottom Interactive Sheet (Matches Image 1 Concept) */}
+        <div className="relative z-10 p-5 sm:p-6 pb-6">
+          <div className="bg-white text-slate-900 rounded-[28px] p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4">
+            <h3 className="text-base font-bold text-slate-900 tracking-tight">
+              What should we call you?
+            </h3>
+
+            {error && (
+              <div className="p-2.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 font-medium">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleStartExploring} className="space-y-4">
+              <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-3 px-4 flex items-center gap-3 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all">
+                <User className="w-5 h-5 text-slate-400 shrink-0" />
+                <input
+                  type="text"
+                  value={usernameInput}
+                  onChange={(e) => setUsernameInput(e.target.value)}
+                  placeholder="Rashid"
+                  maxLength={24}
+                  className="w-full bg-transparent text-sm font-bold text-slate-900 focus:outline-none placeholder:text-slate-400"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full h-13 bg-[#007A55] hover:bg-[#006848] active:scale-98 transition-all rounded-full text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/20 cursor-pointer disabled:opacity-75"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Entering Adventure...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Start Exploring</span>
+                    <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                  </>
+                )}
+              </button>
+            </form>
           </div>
         </div>
       </div>
