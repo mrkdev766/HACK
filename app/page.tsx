@@ -126,7 +126,7 @@ export default function WelcomePage() {
                   type="text"
                   value={usernameInput}
                   onChange={(e) => setUsernameInput(e.target.value)}
-                  placeholder="Rashid"
+                  placeholder="Your name"
                   maxLength={24}
                   className="w-full bg-transparent text-sm font-extrabold text-slate-900 focus:outline-none placeholder:text-slate-400"
                 />
