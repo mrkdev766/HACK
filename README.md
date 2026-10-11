@@ -1,8 +1,8 @@
-# 🌄 Travelholic (Wanderly)
+# 🌄 Wanderly
 
 <div align="center">
 
-![Travelholic Banner](https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80)
+![Wanderly Banner](https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80)
 
 ### *Turn Every Expedition Into a Mystery Quest*
 
@@ -13,7 +13,7 @@
 [![Vercel Ready](https://img.shields.io/badge/Vercel-Production_Deployed-000000?style=for-the-badge&logo=vercel)](https://vercel.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-[**Explore Demo**](https://travelholic.app) • [**Deployment Guide**](DEPLOYMENT_GUIDE.md) • [**Database Schema**](supabase/schema.sql) • [**GitHub Repo**](https://github.com/mrkdev766/HACK)
+[**Explore Demo**](https://wanderly.app) • [**Deployment Guide**](DEPLOYMENT_GUIDE.md) • [**Database Schema**](supabase/schema.sql) • [**GitHub Repo**](https://github.com/mrkdev766/HACK)
 
 ---
 
@@ -21,7 +21,7 @@
 
 ## 📖 Overview
 
-**Travelholic (Wanderly)** is a state-of-the-art, AI-powered real-world travel adventure web application that revolutionizes urban and wilderness exploration. Instead of static travel guides, Travelholic turns trips into progressive **mystery quests**. 
+**Wanderly** is a state-of-the-art, AI-powered real-world travel adventure web application that revolutionizes urban and wilderness exploration. Instead of static travel guides, Wanderly turns trips into progressive **mystery quests**. 
 
 Enter your starting location, budget, duration, preferred transit mode (**Walking**, **Public Transit**, or **Personal Vehicle**), and travel vibe. Google Gemini AI constructs a multi-stop real-world quest where future destinations remain mystery surprise nodes until current missions are completed, documented, and verified!
 
