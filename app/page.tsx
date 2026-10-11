@@ -102,20 +102,25 @@ export default function WelcomePage() {
         </div>
 
         {/* Bottom Interactive Sheet (Matches Image 1 Concept) */}
-        <div className="relative z-10 p-5 sm:p-6 pb-6">
-          <div className="bg-white text-slate-900 rounded-[28px] p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4">
-            <h3 className="text-base font-bold text-slate-900 tracking-tight">
-              What should we call you?
-            </h3>
+        <div className="relative z-10 p-5 sm:p-6 pb-8">
+          <div className="bg-white text-slate-900 rounded-[32px] p-6 sm:p-7 shadow-2xl shadow-slate-950/30 border border-slate-100/80 space-y-5">
+            <div>
+              <h3 className="text-lg font-black text-slate-900 tracking-tight">
+                What should we call you?
+              </h3>
+              <p className="text-xs text-slate-400 font-medium mt-0.5">
+                Enter your name to personalize your mystery route
+              </p>
+            </div>
 
             {error && (
-              <div className="p-2.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 font-medium">
+              <div className="p-3 bg-red-50 border border-red-200/90 rounded-2xl text-xs text-red-700 font-semibold">
                 {error}
               </div>
             )}
 
             <form onSubmit={handleStartExploring} className="space-y-4">
-              <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-3 px-4 flex items-center gap-3 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all">
+              <div className="bg-slate-50 border border-slate-200/90 rounded-2xl py-3.5 px-4 flex items-center gap-3 focus-within:border-slate-900 focus-within:ring-2 focus-within:ring-slate-900/10 transition-all">
                 <User className="w-5 h-5 text-slate-400 shrink-0" />
                 <input
                   type="text"
@@ -123,24 +128,24 @@ export default function WelcomePage() {
                   onChange={(e) => setUsernameInput(e.target.value)}
                   placeholder="Rashid"
                   maxLength={24}
-                  className="w-full bg-transparent text-sm font-bold text-slate-900 focus:outline-none placeholder:text-slate-400"
+                  className="w-full bg-transparent text-sm font-extrabold text-slate-900 focus:outline-none placeholder:text-slate-400"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-13 bg-[#007A55] hover:bg-[#006848] active:scale-98 transition-all rounded-full text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/20 cursor-pointer disabled:opacity-75"
+                className="w-full h-13 bg-slate-900 hover:bg-slate-800 active:scale-[0.98] transition-all rounded-full text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-slate-900/25 cursor-pointer disabled:opacity-75"
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="w-4 h-4 animate-spin text-white" />
                     <span>Entering Adventure...</span>
                   </>
                 ) : (
                   <>
                     <span>Start Exploring</span>
-                    <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                    <ArrowRight className="w-4.5 h-4.5 stroke-[2.5]" />
                   </>
                 )}
               </button>
