@@ -56,17 +56,17 @@ export default function WelcomePage() {
   return (
     <MobileShell theme="dark">
       <div className="relative flex-1 flex flex-col justify-between select-none overflow-y-auto min-h-full bg-[#0F172A] text-white">
-        {/* Background Image: Mountain Sunset Overlook from Image 1 */}
+        {/* Background Image: Crisp High-Res Mountain Sunset Overlook */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/wanderly_hero.png"
+            src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=90"
             alt="Wanderly Mountain Sunset"
             fill
             priority
             className="object-cover object-center scale-105"
           />
-          {/* Subtle gradient scrim for text readability & focus */}
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/20 to-slate-950/85" />
+          {/* Light gradient scrim to make 4K mountain sunset pop */}
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-slate-950/20 to-slate-950/80" />
         </div>
 
         {/* Top Header Branding Section (Matches Image 1 Concept) */}
