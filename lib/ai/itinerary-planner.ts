@@ -45,22 +45,41 @@ export class TripPlannerService {
       .map((s) => `- ${s.name} (${s.lat.toFixed(4)}°N, ${s.lng.toFixed(4)}°E): ${s.vibe}. Mystery Twist: "${s.secret_spot}"`)
       .join('\n');
 
-    const prompt = `You are Wanderly's elite Google Gemini AI Travel Adventure Architect & Grounded Geospatial Researcher.
-Plan an exciting, feasible, budget-calibrated ${input.duration_value}-${input.duration_unit} multi-stop mystery adventure starting from "${input.starting_location}".
+    const modePromptGuide = {
+      walking: `WALKING SPECIALIZATION:
+- Spacing: Destinations MUST be close together within 1–4 km radii suitable for walking/hiking.
+- Transit Focus: Pedestrian trails, heritage alleyways, walking minutes, zero/low transit fares, local walking food stalls.
+- Mission Focus: Document walking milestones, pedestrian hidden gems, scenic footbridges, and local tea shops.`,
+      public_transit: `PUBLIC TRANSIT SPECIALIZATION:
+- Spacing: Connected via real public transport (Metro, State Buses, Suburban Trains, Water Ferries, Share Autos).
+- Transit Focus: Exact local transit routes (e.g. Bus numbers, Metro line colors, Ferry routes), station-to-station fare estimates in INR (₹15–₹50 per leg).
+- Mission Focus: Find secret local stops near bus/metro hubs, authentic street markets, and heritage bazaars.`,
+      personal_vehicle: `PERSONAL VEHICLE / DRIVING SPECIALIZATION:
+- Spacing: Scenic highway driving corridors, mountain ridges, or coastal loops (10–40 km distances).
+- Transit Focus: Highway route numbers, parking availability, fuel/toll estimate allocations, roadside viewpoints & dhabas.
+- Mission Focus: Off-grid viewpoints, scenic pull-overs, hidden hill trails, and local farm shops with parking access.`,
+    }[input.transport_mode] || `PUBLIC TRANSIT SPECIALIZATION: Focus on local buses, metro, and share autos.`;
 
-GEOSPATIAL & REGIONAL RESEARCH:
+    const prompt = `You are Wanderly's elite Google Gemini AI Travel Adventure Architect & Grounded Geospatial Researcher.
+Plan an exciting, highly feasible, budget-calibrated ${input.duration_value}-${input.duration_unit} multi-stop mystery adventure starting from "${input.starting_location}".
+
+REAL-WORLD INTERNET & GEOSPATIAL DATA GROUNDING:
+- Base all place names, food recommendations, and local markets on CURRENT real-world regional knowledge for ${input.starting_location}.
 - Starting Coordinates: ${research.location.lat.toFixed(4)}° N, ${research.location.lng.toFixed(4)}° E (${research.location.display_name}).
 ${suggestedCorridorText ? `- ${suggestedCorridorText}` : ''}
-${research.wikipedia_summary ? `- Regional Context: "${research.wikipedia_summary}"` : ''}
+${research.wikipedia_summary ? `- Regional Travel Intelligence: "${research.wikipedia_summary}"` : ''}
 
-CANDIDATE STOPS & MYSTERY LOCAL SPOTS:
+CANDIDATE STOPS & LOCAL SPOTS:
 ${suggestedStopsText}
+
+MODE-TAILORED TRANSIT STRATEGY (${input.transport_mode.toUpperCase()}):
+${modePromptGuide}
 
 BUDGET ECONOMICS (Strict Ceiling: ₹${input.budget_amount} ${input.currency} for ${durationDays} days):
 - Mode of Transit: ${input.transport_mode} (estimated transit rate: ~₹${budgetModel.transit_per_km}/km).
 - Realistic Daily Accommodation: ~₹${budgetModel.daily_stay_budget}/day.
 - Realistic Daily Local Meals & Chai: ~₹${budgetModel.daily_food_budget}/day.
-- Adventure & Mission Buffer: ~₹${budgetModel.activities_budget}/day.
+- Adventure & Activity Buffer: ~₹${budgetModel.activities_budget}/day.
 - Sum of all stop "estimated_cost" MUST NOT EXCEED ₹${input.budget_amount}.
 
 TRAVELER PARAMETERS:
@@ -73,20 +92,21 @@ TRAVELER PARAMETERS:
 
 REQUIREMENTS:
 1. Provide between 2 and 4 sequential stops along a logical real-world corridor.
-2. Coordinates (latitude & longitude) must be genuine, realistic coordinates for India.
-3. Each destination MUST include a thrilling, gamified "mission" with a mystery angle (e.g. secret sunrise ridge, unmapped ferry, local spice market).
-4. Realistic travel minutes between consecutive stops based on actual road distance.
+2. Coordinates (latitude & longitude) must be genuine, realistic coordinates for India/region.
+3. Incorporate mode-tailored transit notes in each description (specifying Metro line/Bus/Auto or Walking path or Parking tip).
+4. Include itemized estimated costs for transport + food + entrance fees in each destination.
+5. Each destination MUST include a thrilling, gamified "mission" with a mystery angle.
 
 Respond ONLY with valid JSON conforming to this schema without markdown formatting:
 {
-  "trip_summary": "Inspiring 1-2 sentence overview capturing the mystery and vibe",
+  "trip_summary": "Inspiring 1-2 sentence overview capturing the mystery, chosen transit mode, and vibe",
   "currency": "INR",
   "estimated_total_cost": number <= ${input.budget_amount},
   "destinations": [
     {
       "sequence_number": 1,
       "name": "Stop Name",
-      "description": "2 sentences describing what makes this stop exhilarating",
+      "description": "2 sentences describing what makes this stop exhilarating, including mode-specific transit tips (e.g. Bus #, Metro line, Walking route)",
       "verified_place_id": "optional_id",
       "latitude": number,
       "longitude": number,
@@ -304,19 +324,23 @@ Respond ONLY with valid JSON conforming to this schema without markdown formatti
     const destinations = selectedStops.map((stop: any, idx: number) => {
       const resolvedImage = ImageCuratorService.getInstantImage(stop.name, idx);
 
+      const modeKey = input.transport_mode as 'walking' | 'public_transit' | 'personal_vehicle';
+      const transitTip = stop.transit_tips?.[modeKey] ||
+        (modeKey === 'walking' ? 'Walkable pedestrian corridor.' : modeKey === 'personal_vehicle' ? 'Scenic driving route with local parking.' : 'Connected via local bus & metro routes.');
+
       return {
         sequence_number: idx + 1,
         name: stop.name,
-        description: `${stop.description} Mystery Feature: ${stop.secret_spot}`,
+        description: `${stop.description} Transit (${input.transport_mode.replace('_', ' ')}): ${transitTip} Mystery Spot: ${stop.secret_spot}`,
         verified_place_id: `osm_${idx + 1}`,
         latitude: stop.lat,
         longitude: stop.lng,
         estimated_cost: costPerStop,
-        estimated_travel_minutes: 60 + idx * 30,
+        estimated_travel_minutes: modeKey === 'walking' ? 25 + idx * 15 : 45 + idx * 30,
         image_url: resolvedImage,
         mission: {
           title: `${stop.name} Mystery Quest`,
-          instructions: `Locate ${stop.secret_spot}. Capture 2 field photos and note your impressions.`,
+          instructions: `Locate ${stop.secret_spot}. (${transitTip}) Capture 2 field photos and note your impressions.`,
           required_photo_count: 2,
           points: 100 + idx * 50,
           explore_prompt: `Discover ${stop.secret_spot}`,
@@ -327,7 +351,7 @@ Respond ONLY with valid JSON conforming to this schema without markdown formatti
     });
 
     return {
-      trip_summary: `Research-grounded mystery expedition from ${input.starting_location} along the ${research.verified_corridors[0] || 'scenic trail'}.`,
+      trip_summary: `Research-grounded ${input.transport_mode.replace('_', ' ')} mystery expedition from ${input.starting_location} along the ${research.verified_corridors[0] || 'scenic trail'}.`,
       currency: input.currency || 'INR',
       estimated_total_cost: input.budget_amount,
       destinations,

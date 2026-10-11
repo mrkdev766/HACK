@@ -48,11 +48,16 @@ const REGIONAL_CORRIDORS: Record<
       lng: number;
       description: string;
       secret_spot: string;
+      transit_tips?: {
+        walking?: string;
+        public_transit?: string;
+        personal_vehicle?: string;
+      };
     }[];
   }
 > = {
   kerala: {
-    corridors: ['NH 66 Coastal Line (Kochi - Alleppey - Varkala - Kovalam)', 'Western Ghats Ridge (Munnar - Thekkady - Vagamon)'],
+    corridors: ['NH 66 Coastal Highway & SWTD Waterways (Kochi - Alleppey - Varkala)', 'Western Ghats Ridge (Munnar - Thekkady - Vagamon)'],
     stops: [
       {
         name: 'Fort Kochi & Mattancherry',
@@ -61,6 +66,11 @@ const REGIONAL_CORRIDORS: Record<
         lng: 76.2421,
         description: 'Atmospheric port town with 16th-century Portuguese quarters, spice warehouses, and Chinese fishing nets.',
         secret_spot: 'Secret courtyard cafe behind Jewish Synagogue antique bazaar.',
+        transit_tips: {
+          walking: '100% walkable heritage island. Walk the Bastion Street loop via Princess St.',
+          public_transit: 'Take Kochi Water Metro from High Court Jetty to Fort Kochi for ₹20.',
+          personal_vehicle: 'Park near Parade Ground (₹30/hr). Narrow heritage streets best explored on foot.',
+        },
       },
       {
         name: 'Alleppey Backwater Canals',
@@ -69,6 +79,11 @@ const REGIONAL_CORRIDORS: Record<
         lng: 76.3388,
         description: 'Vast network of shimmering backwater canals, water lilies, and emerald paddy basins below sea level.',
         secret_spot: 'Government public water bus (SWTD) local ferry to Nedumudi for ₹18.',
+        transit_tips: {
+          walking: 'Walk along Kayamkulam canal towpath and Finishing Point promenade.',
+          public_transit: 'SWTD Public Ferry from Ernakulam Main Jetty to Alleppey for ₹40.',
+          personal_vehicle: 'Drive via AC Road (Alappuzha-Changanassery Road). Park at KSRTC jetty.',
+        },
       },
       {
         name: 'Varkala Red Cliffs',
@@ -77,6 +92,11 @@ const REGIONAL_CORRIDORS: Record<
         lng: 76.7163,
         description: 'High red laterite cliffs towering over the Arabian Sea with seaside cafes and mineral springs.',
         secret_spot: 'Edava quiet sand spit where backwaters meet the open ocean.',
+        transit_tips: {
+          walking: 'Walk the 2.5 km North Cliff to South Cliff pedestrian boardwalk overlooking the ocean.',
+          public_transit: 'Venad Express train to Varkala Sivagiri station (₹45), then ₹30 share auto to North Cliff.',
+          personal_vehicle: 'Drive via Kallambalam turnoff. Park at Helipad Parking Ground (₹50 full day).',
+        },
       },
       {
         name: 'Munnar High-Range Estates',
@@ -85,14 +105,73 @@ const REGIONAL_CORRIDORS: Record<
         lng: 77.0595,
         description: 'Rolling tea gardens carpeted across the Western Ghats with cool breezes and cloud inversions.',
         secret_spot: 'Kolukkumalai off-road Jeep trail for sunrise above 7,900 feet.',
+        transit_tips: {
+          walking: 'Hike Old Munnar tea plantation trails (3–6 km guided walking routes).',
+          public_transit: 'KSRTC Fast Passenger bus from Kochi/Aluva (₹160). Local auto ₹100/hr.',
+          personal_vehicle: 'Drive via Kochi-Dhanushkodi Highway (NH 85). Watch for mountain curves.',
+        },
+      },
+    ],
+  },
+  delhi: {
+    corridors: ['Yellow & Violet Metro Lines (Old Delhi - Lutyens - Mehrauli Heritage Trail)'],
+    stops: [
+      {
+        name: 'Chandni Chowk & Jama Masjid',
+        vibe: 'Historic Spice Markets & Street Food',
+        lat: 28.6506,
+        lng: 77.2303,
+        description: '17th-century Mughal heart of Delhi with dense spice bazaars, paranthe wali gali, and heritage mosques.',
+        secret_spot: 'Rooftop view over Jama Masjid from spice merchant Haveli in Khari Baoli.',
+        transit_tips: {
+          walking: 'Extremely dense pedestrian alleys. Walk from Red Fort to Fatehpuri Masjid.',
+          public_transit: 'Yellow Line Metro to Chandni Chowk Station (Gate 5). Metro fare ~₹30.',
+          personal_vehicle: 'Avoid driving inside. Park at Old Delhi Railway Station multi-level parking (₹100).',
+        },
       },
       {
-        name: 'Kovalam & Vizhinjam',
-        vibe: 'Lighthouse Bay',
-        lat: 8.4004,
-        lng: 76.9787,
-        description: 'Crescent beaches anchored by a 1970s striped lighthouse and natural rock headlands.',
-        secret_spot: 'Vizhinjam natural rock-cut cave temple from the 8th century.',
+        name: 'Mehrauli Archaeological Park & Qutub Minar',
+        vibe: 'Sultanate Ruins & Forest Trails',
+        lat: 28.5244,
+        lng: 77.1855,
+        description: '200 acres of ancient forested ruins, stepwells (Baoli), and 12th-century stone monuments.',
+        secret_spot: 'Rajon ki Baoli stepwell at golden hour light.',
+        transit_tips: {
+          walking: 'Pleasant 4 km shaded walking loop inside the archaeological park.',
+          public_transit: 'Yellow Line Metro to Qutub Minar Station, then ₹20 E-rickshaw.',
+          personal_vehicle: 'Drive via Anuvrat Marg. Ample parking at Qutub Minar visitor lot (₹50).',
+        },
+      },
+    ],
+  },
+  mumbai: {
+    corridors: ['Western Line Suburban Corridor (Colaba - Bandra - Juhu Coastal)'],
+    stops: [
+      {
+        name: 'Colaba & Kala Ghoda Art District',
+        vibe: 'Colonial Heritage & Sea Breeze',
+        lat: 18.922,
+        lng: 72.8347,
+        description: 'Victoria-era Gothic architecture, art galleries, iconic Gateway of India, and historic Iranian cafes.',
+        secret_spot: 'Hidden courtyard at David Sassoon Library overlooking Prince of Wales museum gardens.',
+        transit_tips: {
+          walking: 'Very walkable heritage precinct. Walk along Rampart Row to Gateway.',
+          public_transit: 'Local Train to Churchgate / CST (₹10), then BEST Bus #103 or ₹30 share taxi.',
+          personal_vehicle: 'Park at Regal Cinema public lot or Nariman Point pay-and-park.',
+        },
+      },
+      {
+        name: 'Bandra Fort & Pali Hill Lanes',
+        vibe: 'Bohemian Seaside & Vintage Bungalows',
+        lat: 19.0435,
+        lng: 72.8194,
+        description: 'Coastal Portuguese fort ruins, colorful street art murals, and seaside promenade.',
+        secret_spot: 'Ranwar Village heritage enclave with 150-year-old East Indian cottages.',
+        transit_tips: {
+          walking: 'Walk Carter Road Promenade down to Bandstand Fort rocks.',
+          public_transit: 'Local train to Bandra Station (West), then Auto Rickshaw (₹23 meter base fare).',
+          personal_vehicle: 'Drive via Bandra-Worli Sea Link (Toll ₹85). Parking at Carter Road.',
+        },
       },
     ],
   },
@@ -106,6 +185,11 @@ const REGIONAL_CORRIDORS: Record<
         lng: 73.8278,
         description: 'Vibrant pastel yellow and blue mansions with overhanging tiled balconies in Panaji.',
         secret_spot: 'Traditional 100-year-old Goan bakery baking fresh Poi bread at 4 PM.',
+        transit_tips: {
+          walking: 'Stroll narrow cobblestone alleys around 31st January Road.',
+          public_transit: 'KTM State Bus to Panaji Bus Stand (₹20), then 10 min walk.',
+          personal_vehicle: 'Park at Panaji Municipal Multi-Level Parking near Mandovi river.',
+        },
       },
       {
         name: 'Cabo de Rama Cliff Fort',
@@ -114,6 +198,11 @@ const REGIONAL_CORRIDORS: Record<
         lng: 73.9216,
         description: 'Dramatic ancient fortress ruins perched high on a headland overlooking empty turquoise beaches.',
         secret_spot: 'Pebble beach cove tucked beneath the southern ramparts.',
+        transit_tips: {
+          walking: 'Hike cliffside trail down to Cabo de Rama beach cove.',
+          public_transit: 'KTM local bus from Margao to Cabo de Rama village (₹35).',
+          personal_vehicle: 'Scooter / Car drive via Canacona coastal highway.',
+        },
       },
     ],
   },
@@ -127,6 +216,11 @@ const REGIONAL_CORRIDORS: Record<
         lng: 76.46,
         description: 'Surreal landscape of giant granite boulders, 14th-century temple ruins, and the Tungabhadra river.',
         secret_spot: 'Sanapur Lake cliff jumping spot surrounded by banana plantations.',
+        transit_tips: {
+          walking: 'Walk the 3 km Matanga Hill to Virupaksha riverside trail.',
+          public_transit: 'KSRTC bus from Hospet to Hampi (₹18). Bicycle rental ₹150/day.',
+          personal_vehicle: 'Drive via NH 50. Park at Virupaksha main temple lot.',
+        },
       },
       {
         name: 'Coorg Coffee Mist Highlands',
@@ -135,10 +229,16 @@ const REGIONAL_CORRIDORS: Record<
         lng: 75.7382,
         description: 'Rolling hills blanketed in shade-grown Arabica coffee, wild pepper vines, and orange groves.',
         secret_spot: 'Mandalpatti ridge lookout accessed via mist-covered dirt track.',
+        transit_tips: {
+          walking: 'Guided plantation trail walking through spice estates.',
+          public_transit: 'KSRTC Rajahamsa bus to Madikeri (₹220). Local jeep ₹1200 split.',
+          personal_vehicle: 'Drive via Mysore-Madikeri Road (NH 275). Scenic winding curves.',
+        },
       },
     ],
   },
 };
+
 
 export class TravelResearcherService {
   /**
