@@ -76,9 +76,26 @@ create table if not exists public.destinations (
 );
 
 -- -----------------------------------------------------------------------------
--- 4. MISSIONS TABLE
--- Interactive challenges & quests assigned to destinations
+-- IDEMPOTENT COLUMN ENHANCEMENTS FOR EXISTING DATABASES
+-- Ensures existing tables created from earlier migration versions get the new columns
 -- -----------------------------------------------------------------------------
+alter table public.profiles
+  add column if not exists bio text default 'Curious wanderer seeking unmapped trails.',
+  add column if not exists badge text default 'Silver Coin Earner',
+  add column if not exists coins integer default 150;
+
+alter table public.trips 
+  add column if not exists is_public boolean not null default false,
+  add column if not exists public_title text,
+  add column if not exists public_description text,
+  add column if not exists vibe text default 'Scenic',
+  add column if not exists clones_count integer not null default 0;
+
+alter table public.destinations
+  add column if not exists actual_spend numeric(10,2),
+  add column if not exists custom_notes text,
+  add column if not exists preferred_transport text default 'walking';
+
 create table if not exists public.missions (
   id uuid primary key default gen_random_uuid(),
   destination_id uuid not null references public.destinations(id) on delete cascade,
